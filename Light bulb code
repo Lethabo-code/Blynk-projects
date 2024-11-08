@@ -1,0 +1,34 @@
+#define BLYNK_PRINT Serial
+#define BLYNK_TEMPLATE_ID "TMPLqJe1Kc8A"
+#define BLYNK_DEVICE_NAME "T"
+
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <BlynkSimpleEsp32.h>
+
+char auth[] = "lNqWgNC4Bp27TdLiqa6UPbhZ31pj-aBB";
+char ssid[] = "greycode";
+char pass[] = "Greycode";
+
+int BulbPin = 5;
+bool BulbState = LOW;
+
+void setup() {
+Serial.begin(115200);
+pinMode(BulbPin, OUTPUT);
+
+Blynk.begin(auth, ssid, pass);
+while (Blynk.connect() == false) {
+// Wait until connected to Blynk server;
+	}
+	}
+
+void loop() {
+Blynk.run();
+Serial.print(BulbState);
+}
+
+BLYNK_WRITE(V0) {  // V0 is the virtual pin that is connected to the BULB widget on the Blynk app
+BulbState = param.asInt();
+digitalWrite(BulbPin, BulbState);
+}
